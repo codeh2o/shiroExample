@@ -1,0 +1,54 @@
+spring:
+  profiles:
+    active: dev,female
+  datasource:
+    url: jdbc:mysql://192.168.56.101:3306/dev
+    type: com.zaxxer.hikari.HikariDataSource
+    username: root
+    password: 123456
+  redis:
+    database: 0
+    host: 192.168.56.101
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    password: ''
+    port: 6379
+    timeout: 5000
+
+server:
+  port: 8083
+  compression:
+    enabled: true
+logging:
+  file:
+    path: E:/java/demo/log
+
+
+
+
+
+site:
+  meta: this is a meta
+  title: ${site.meta}
+  keywords: this is a keywords
+
+
+rememberMeSeconds: 3600
+
+captcha:
+  URIs: "/info2"
+  image:
+    width: 100
+    height: 20
+    length: 4
+social:
+  qq:
+    provider-id: qq
+    app-id: 100550231
+    app-secret: 69b6ab57b22f3c2fe6a6149274e3295e
+
+
