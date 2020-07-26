@@ -2,8 +2,8 @@ spring:
   profiles:
     active: dev,female
   datasource:
-    url: jdbc:mysql://192.168.56.101:3306/dev
-    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.199.128:3306/shiro
+    type: com.zaxxer.hikari.HikariDataSource
     username: root
     password: 123456
   redis:
@@ -18,11 +18,6 @@ spring:
     password: ''
     port: 6379
     timeout: 5000
-
-mybatis:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true
 
 server:
   port: 8083
@@ -50,10 +45,5 @@ captcha:
     width: 100
     height: 20
     length: 4
-social:
-  qq:
-    provider-id: qq
-    app-id: 100550231
-    app-secret: 69b6ab57b22f3c2fe6a6149274e3295e
 
 
