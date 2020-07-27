@@ -1,8 +1,8 @@
 package com.example.shiro.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +11,15 @@ import java.util.List;
  * @author: h2o
  * @create: 2020-07-26 21:43
  **/
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Role {
-    private int id;
+    private Integer id;
     private String name;
     private String description;
 
-    private List<Permission> roleList;
+    private List<Permission> permissionList = new ArrayList<>();
 }

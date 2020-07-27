@@ -25,7 +25,6 @@ public class QuickstartTest5 {
     }
 
     @Test
-
     public void testAuthentication(){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken("jack", "123");

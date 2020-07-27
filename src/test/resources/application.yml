@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev,female
   datasource:
-    url: jdbc:mysql://192.168.199.128:3306/shiro
+    url: jdbc:mysql://192.168.56.101:3306/shiro
     type: com.zaxxer.hikari.HikariDataSource
     username: root
     password: 123456
@@ -24,6 +24,7 @@ server:
   compression:
     enabled: true
 logging:
+  config: classpath:logback-spring.xml
   file:
     path: E:/java/demo/log
 

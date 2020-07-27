@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shiro.mapper.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.shiro.entity.Permission" >
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                id,
+                name,
+                url
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.example.shiro.entity.Permission">
+        INSERT INTO permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != name'>
+                name,
+            </if>
+            <if test ='null != url'>
+                url
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != name'>
+                #{name},
+            </if>
+            <if test ='null != url'>
+                #{url}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM permission
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.shiro.entity.Permission">
+        UPDATE permission
+        <set>
+            <if test ='null != name'>name = #{name},</if>
+            <if test ='null != url'>url = #{url}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM permission
+        WHERE id = #{id}
+    </select>
+
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM permission
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM permission
+    </select>
+
+</mapper>

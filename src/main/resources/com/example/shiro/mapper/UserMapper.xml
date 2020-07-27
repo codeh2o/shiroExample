@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shiro.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.shiro.entity.User">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="create_time" property="createTime"/>
+        <result column="salt" property="salt"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                id,
+                username,
+                password,
+                create_time,
+                salt
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id"
+            parameterType="com.example.shiro.entity.User">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test='null != username'>
+                username,
+            </if>
+            <if test='null != password'>
+                password,
+            </if>
+            <if test='null != createTime'>
+                create_time,
+            </if>
+            <if test='null != salt'>
+                salt
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test='null != username'>
+                #{username},
+            </if>
+            <if test='null != password'>
+                #{password},
+            </if>
+            <if test='null != createTime'>
+                #{createTime},
+            </if>
+            <if test='null != salt'>
+                #{salt}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM user
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.example.shiro.entity.User">
+        UPDATE user
+        <set>
+            <if test='null != username'>username = #{username},</if>
+            <if test='null != password'>password = #{password},</if>
+            <if test='null != createTime'>create_time = #{createTime},</if>
+            <if test='null != salt'>salt = #{salt}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM user
+    </select>
+
+
+    <select id="findByUsername" resultMap="BaseResultMap">
+        SELECT U.id,U.`password`,U.salt,U.username,U.create_time,R.id as rid,R.`name` as rname,R.description as rDescription
+        FROM `user` U LEFT JOIN role R ON U.id = R.id WHERE U.username= #{username};
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByUsernameAndPassword" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user
+        WHERE password = #{password} AND username = #{username}
+    </select>
+
+</mapper>

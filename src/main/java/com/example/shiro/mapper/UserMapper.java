@@ -1,8 +1,8 @@
-package com.example.shiro.dao;
+package com.example.shiro.mapper;
 
 import com.example.shiro.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Repository;
  * @author: h2o
  * @create: 2020-07-26 21:48
  **/
+@Mapper
 @Repository
 public interface UserMapper {
 
-    @Select("select * from user where username = #{username}")
+
     public User findByUsername(@Param("username") String username);
 
-    @Select("select * from user where username = #{userId}")
-    public User findById(@Param("userId") int id);
 
-    @Select("select * from user where username = #{username} and password = #{password}")
+    public User findById(int id);
+
     public User findByUsernameAndPassword(@Param("username") String username,@Param("password") String password);
 }
