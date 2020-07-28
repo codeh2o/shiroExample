@@ -24,6 +24,17 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+        //需要登录的接口，如果访问某个接口，需要登录却没登录，则调用此接口(如果不是前后端分离，则跳转页面)
+        shiroFilterFactoryBean.setLoginUrl("/pub/need_login");
+
+        //登录成功，跳转url，如果前后端分离，则没这个调用
+        //shiroFilterFactoryBean.setSuccessUrl("/");
+
+        //没有权限，未授权就会调用此方法， 先验证登录-》再验证是否有权限
+        shiroFilterFactoryBean.setUnauthorizedUrl("/pub/not_permit");
+
+
         //坑1
         //配置过滤器
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -49,19 +60,21 @@ public class ShiroConfig {
         return defaultWebSecurityManager;
     }
 
-    @Bean//疑惑
-    public CustomRealm customRealm(){
-        CustomRealm customRealm = new CustomRealm();
-        customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        return customRealm;
-    }
-
     @Bean
     public SessionManager sessionManager(){
         CustomSessionManager customSessionManager = new CustomSessionManager();
 
         return customSessionManager;
     }
+
+    @Bean//疑惑
+    public CustomRealm customRealm(){
+        CustomRealm customRealm = new CustomRealm();
+        //customRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        return customRealm;
+    }
+
+
 
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher(){

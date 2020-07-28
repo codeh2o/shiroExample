@@ -16,6 +16,15 @@
 
     </resultMap>
 
+    <resultMap id="SimpleResultMap" type="com.example.shiro.entity.Role">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+
+
+
+    </resultMap>
+
     <sql id="Base_Column_List">
                 id,
                 name,
@@ -77,13 +86,11 @@
         FROM role
     </select>
 
-    <select id="findRoleByUserId" resultMap="BaseResultMap">
-        SELECT P.id,P.name,description,
-        P.id AS permission_id,P.`name` AS permission_name,P.url AS pemission_url
-        FROM role R
-        LEFT JOIN role_permission RP ON R.id = RP.role_id
-        LEFT JOIN permission P ON P.id = RP.permission_id
-        WHERE R.id = #{userId};
+    <select id="findRoleByUserId" resultMap="SimpleResultMap">
+        SELECT R.id AS id ,R.description As description,R.`name` AS name  FROM `user` U
+        LEFT JOIN user_role ON U.id = user_role.user_id
+        LEFT JOIN role R ON user_role.role_id = R.id
+        WHERE U.id= #{userId};
     </select>
 
 

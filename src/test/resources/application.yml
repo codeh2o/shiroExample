@@ -24,7 +24,6 @@ server:
   compression:
     enabled: true
 logging:
-  config: classpath:logback-spring.xml
   file:
     path: E:/java/demo/log
 
