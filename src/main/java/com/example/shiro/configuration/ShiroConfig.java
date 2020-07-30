@@ -9,7 +9,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @program: shiro
@@ -34,7 +36,10 @@ public class ShiroConfig {
         //没有权限，未授权就会调用此方法， 先验证登录-》再验证是否有权限
         shiroFilterFactoryBean.setUnauthorizedUrl("/pub/not_permit");
 
-
+        //设置自定义filter
+        Map<String, Filter> filterMap= new LinkedHashMap<>();
+        filterMap.put("anyRoles",new AnyRolesAuthorizationFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
         //坑1
         //配置过滤器
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
@@ -42,7 +47,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout","logout");
         filterChainDefinitionMap.put("/pub/**","anon");
         filterChainDefinitionMap.put("/auth/**","user");
-        filterChainDefinitionMap.put("/admin/**","roles[admin]");
+        //filterChainDefinitionMap.put("/admin/**","roles[admin]");
+        filterChainDefinitionMap.put("/admin/**","anyRoles[admin,editor]");
         filterChainDefinitionMap.put("/video/update","perms[video_update]");
         filterChainDefinitionMap.put("/**","user");
 
